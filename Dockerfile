@@ -2,8 +2,7 @@ FROM alpine:3.8 AS base
 
 ENV NODE_ENV=production
 
-RUN apk add --no-cache nodejs nodejs-npm zlib \
- && rm misskey/Dockerfile
+RUN apk add --no-cache nodejs nodejs-npm zlib
 WORKDIR /tmp/misskey
 COPY misskey ./
 
