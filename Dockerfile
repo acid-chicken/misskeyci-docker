@@ -9,8 +9,6 @@ FROM base AS builder
 
 RUN apk add --no-cache autoconf automake ca-certificates file g++ libc-dev libjpeg-turbo libjpeg-turbo-dev libpng libpng-dev libwebp libwebp-dev libtool make nasm pkgconfig python \
  && npm i -g npm@latest \
- && npm i \
- && npm i -g node-gyp \
- && node-gyp configure \
- && node-gyp build \
- && npm run build
+ && npm i -g yarn \
+ && yarn install \
+ && yarn build
