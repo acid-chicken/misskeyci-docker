@@ -2,10 +2,6 @@ FROM node:11-alpine
 
 ENV NODE_ENV=production
 
-WORKDIR /tmp/misskey
-COPY yarn.lock ./
-COPY misskey ./
-
 RUN apk add --no-cache \
         autoconf \
         automake \
@@ -26,6 +22,10 @@ RUN apk add --no-cache \
         pkgconfig \
         python \
  && npm i -g npm@latest \
- && npm i -g yarn \
- && yarn install \
+ && npm i -g yarn
+
+COPY yarn.lock ./
+COPY misskey ./
+
+RUN yarn install \
  && yarn build

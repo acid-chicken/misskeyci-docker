@@ -2,9 +2,6 @@ FROM node:8-alpine
 
 ENV NODE_ENV=production
 
-WORKDIR /tmp/misskey
-COPY yarn.lock ./
-
 RUN apk add --no-cache \
         autoconf \
         automake \
@@ -26,3 +23,5 @@ RUN apk add --no-cache \
         python \
  && npm i -g npm@latest \
  && npm i -g yarn
+
+COPY yarn.lock ./
