@@ -7,8 +7,11 @@ executors:
       - image: docker:latest
 
 jobs:
-  build:
+  docker:
     parameters:
+      deploy:
+        type: boolean
+        default: false
       path:
         type: string
         default: "docker"
@@ -24,47 +27,34 @@ jobs:
           name: Build
           command: |
             docker build -t misskey/ci:<<parameters.tag>> <<parameters.path>>
-  deploy:
-    parameters:
-      path:
-        type: string
-        default: "docker"
-      tag:
-        type: string
-        default: "docker"
-    executor: docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: Build
-          command: |
-            docker build -t misskey/ci:<<parameters.tag>> <<parameters.path>>
-      - run:
-          name: Deploy
-          command: |
-            if [ "$DOCKERHUB_USERNAME$DOCKERHUB_PASSWORD" ]
-             then
-              docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-              docker push misskey/ci
-             else
-              echo -e '\033[0;33mDeploy Aborted\033[0;39m'
-            fi
+      - when:
+          condition: <<parameters.deploy>>
+          steps:
+            - run:
+                name: Deploy
+                command: |
+                  if [ "$DOCKERHUB_USERNAME$DOCKERHUB_PASSWORD" ]
+                  then
+                    docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
+                    docker push misskey/ci
+                  else
+                    echo -e '\033[0;33mDeploy Aborted\033[0;39m'
+                  fi
 
 workflows:
   version: 2
   v11-node11:
     jobs:
-      - build:
-          name: build
+      - docker:
+          name: build-v11-node11
           path: v11/node11
           tag: v11-node11
           filters:
             branches:
               ignore: master
-      - deploy:
-          name: deploy
+      - docker:
+          name: deploy-v11-node11
+          deploy: true
           path: v11/node11
           tag: v11-node11
           filters:
@@ -72,15 +62,16 @@ workflows:
               only: master
   v11-node8:
     jobs:
-      - build:
-          name: build
+      - docker:
+          name: build-v11-node8
           path: v11/node8
           tag: v11-node8
           filters:
             branches:
               ignore: master
-      - deploy:
-          name: deploy
+      - docker:
+          name: deploy-v11-node8
+          deploy: true
           path: v11/node8
           tag: v11-node8
           filters:
@@ -88,15 +79,16 @@ workflows:
               only: master
   v10-node11:
     jobs:
-      - build:
-          name: build
+      - docker:
+          name: build-v10-node11
           path: v10/node11
           tag: v10-node11
           filters:
             branches:
               ignore: master
-      - deploy:
-          name: deploy
+      - docker:
+          name: deploy-v10-node11
+          deploy: true
           path: v10/node11
           tag: v10-node11
           filters:
@@ -104,15 +96,16 @@ workflows:
               only: master
   v10-node8:
     jobs:
-      - build:
-          name: build
+      - docker:
+          name: build-v10-node8
           path: v10/node8
           tag: v10-node8
           filters:
             branches:
               ignore: master
-      - deploy:
-          name: deploy
+      - docker:
+          name: deploy-v10-node8
+          deploy: true
           path: v10/node8
           tag: v10-node8
           filters:
@@ -120,15 +113,16 @@ workflows:
               only: master
   docker:
     jobs:
-      - build:
-          name: build
+      - docker:
+          name: build-docker
           path: docker
           tag: docker
           filters:
             branches:
               ignore: master
-      - deploy:
-          name: deploy
+      - docker:
+          name: deploy-docker
+          deploy: true
           path: docker
           tag: docker
           filters:
