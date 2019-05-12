@@ -24,17 +24,23 @@ jobs:
           name: Build
           command: |
             docker build -t misskey/ci:<<parameters.tag>> <<parameters.path>>
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
   deploy:
+    parameters:
+      path:
+        type: string
+        default: "docker"
+      tag:
+        type: string
+        default: "docker"
     executor: docker
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
+      - checkout
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
+          name: Build
+          command: |
+            docker build -t misskey/ci:<<parameters.tag>> <<parameters.path>>
       - run:
           name: Deploy
           command: |
@@ -54,10 +60,13 @@ workflows:
           name: build
           path: v11/node11
           tag: v11-node11
+          filters:
+            branches:
+              ignore: master
       - deploy:
           name: deploy
-          requires:
-            - build
+          path: v11/node11
+          tag: v11-node11
           filters:
             branches:
               only: master
@@ -67,10 +76,13 @@ workflows:
           name: build
           path: v11/node8
           tag: v11-node8
+          filters:
+            branches:
+              ignore: master
       - deploy:
           name: deploy
-          requires:
-            - build
+          path: v11/node8
+          tag: v11-node8
           filters:
             branches:
               only: master
@@ -80,10 +92,13 @@ workflows:
           name: build
           path: v10/node11
           tag: v10-node11
+          filters:
+            branches:
+              ignore: master
       - deploy:
           name: deploy
-          requires:
-            - build
+          path: v10/node11
+          tag: v10-node11
           filters:
             branches:
               only: master
@@ -93,10 +108,13 @@ workflows:
           name: build
           path: v10/node8
           tag: v10-node8
+          filters:
+            branches:
+              ignore: master
       - deploy:
           name: deploy
-          requires:
-            - build
+          path: v10/node8
+          tag: v10-node8
           filters:
             branches:
               only: master
@@ -106,10 +124,13 @@ workflows:
           name: build
           path: docker
           tag: docker
+          filters:
+            branches:
+              ignore: master
       - deploy:
           name: deploy
-          requires:
-            - build
+          path: docker
+          tag: docker
           filters:
             branches:
               only: master
