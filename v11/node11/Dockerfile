@@ -14,6 +14,7 @@ RUN apk add --no-cache \
         file \
         g++ \
         git \
+        jq \
         libjpeg-turbo \
         libjpeg-turbo-dev \
         libpng \
