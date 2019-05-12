@@ -2,6 +2,8 @@ FROM node:8-alpine
 
 ENV NODE_ENV=production
 
+WORKDIR /tmp/workspace
+
 RUN apk add --no-cache \
         autoconf \
         automake \
