@@ -1,7 +1,7 @@
 misskeyci-docker
 ==
 
-[![microbadger](https://images.microbadger.com/badges/image/misskey/ci.svg)](https://microbadger.com/images/misskey/ci)
+Internal project.
 
 How to update
 --
