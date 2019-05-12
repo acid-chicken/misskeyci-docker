@@ -39,7 +39,7 @@ jobs:
             if [ "$DOCKERHUB_USERNAME$DOCKERHUB_PASSWORD" ]
              then
               docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-              docker push
+              docker push misskey/ci
              else
               echo -e '\033[0;33mDeploy Aborted\033[0;39m'
             fi
