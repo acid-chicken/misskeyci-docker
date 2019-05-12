@@ -12,6 +12,9 @@ jobs:
       path:
         type: string
         default: "docker"
+      tag:
+        type: string
+        default: "docker"
     executor: docker
     steps:
       - checkout
@@ -19,31 +22,26 @@ jobs:
       - run:
           name: Build
           command: |
-            docker build -t misskey/ci <<parameters.path>>
+            docker build -t misskey/ci:<<parameters.tag>> <<parameters.path>>
       - persist_to_workspace:
           root: .
           paths:
             - .
   deploy:
-    parameters:
-      tag:
-        type: string
-        default: "docker"
     executor: docker
     steps:
-      - setup_remote_docker
       - attach_workspace:
           at: /tmp/workspace
+      - setup_remote_docker
       - run:
           name: Deploy
           command: |
             if [ "$DOCKERHUB_USERNAME$DOCKERHUB_PASSWORD" ]
              then
-              docker tag misskey/ci misskey/ci:<<parameters.tag>>
               docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD
-              docker push misskey/ci:<<parameters.tag>>
+              docker push
              else
-              echo -e '\033[0;33mAborted deploying to Docker Hub\033[0;39m'
+              echo -e '\033[0;33mDeploy Aborted\033[0;39m'
             fi
 
 workflows:
@@ -53,9 +51,9 @@ workflows:
       - build:
           name: build
           path: v11/node11
+          tag: v11-node11
       - deploy:
           name: deploy
-          tag: v11-node11
           requires:
             - build
           filters:
@@ -66,9 +64,9 @@ workflows:
       - build:
           name: build
           path: v11/node8
+          tag: v11-node8
       - deploy:
           name: deploy
-          tag: v11-node8
           requires:
             - build
           filters:
@@ -79,9 +77,9 @@ workflows:
       - build:
           name: build
           path: v10/node11
+          tag: v10-node11
       - deploy:
           name: deploy
-          tag: v10-node11
           requires:
             - build
           filters:
@@ -92,9 +90,9 @@ workflows:
       - build:
           name: build
           path: v10/node8
+          tag: v10-node8
       - deploy:
           name: deploy
-          tag: v10-node8
           requires:
             - build
           filters:
@@ -105,9 +103,9 @@ workflows:
       - build:
           name: build
           path: docker
+          tag: docker
       - deploy:
           name: deploy
-          tag: docker
           requires:
             - build
           filters:
