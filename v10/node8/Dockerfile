@@ -1,10 +1,10 @@
-FROM node:11-alpine AS base
+FROM node:8-alpine AS base
 
 ENV NODE_ENV=production
 
 WORKDIR /tmp/misskey
-COPY yarn.lock ./
-COPY misskey ./
+COPY ../yarn.lock ./
+COPY ../../misskey/v10 ./
 
 FROM base AS builder
 
@@ -27,4 +27,6 @@ RUN apk add --no-cache \
         pkgconfig \
         python \
  && npm i -g npm@latest \
- && npm i -g yarn
+ && npm i -g yarn \
+ && yarn install \
+ && yarn build

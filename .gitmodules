@@ -1,3 +1,8 @@
-[submodule "misskey"]
-	path = misskey
+[submodule "misskey/v11"]
+	path = misskey/v11
 	url = https://github.com/syuilo/misskey
+	branch = master
+[submodule "misskey/v10"]
+	path = misskey/v10
+	url = https://github.com/syuilo/misskey
+	branch = v10
