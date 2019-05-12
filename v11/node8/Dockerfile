@@ -1,11 +1,9 @@
-FROM node:8-alpine AS base
+FROM node:8-alpine
 
 ENV NODE_ENV=production
 
 WORKDIR /tmp/misskey
 COPY yarn.lock ./
-
-FROM base AS builder
 
 RUN apk add --no-cache \
         autoconf \
