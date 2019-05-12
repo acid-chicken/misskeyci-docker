@@ -4,7 +4,7 @@ ENV NODE_ENV=production
 
 WORKDIR /tmp/misskey
 COPY yarn.lock ./
-COPY misskey/v10 ./
+COPY misskey ./
 
 FROM base AS builder
 
