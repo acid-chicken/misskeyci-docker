@@ -1,16 +1,16 @@
-[submodule "v10/node8/misskey"]
-	path = v10/node8/misskey
+[submodule "v10/node10/misskey"]
+	path = v10/node10/misskey
 	url = https://github.com/syuilo/misskey
 	branch = v10
 [submodule "v10/node11/misskey"]
 	path = v10/node11/misskey
 	url = https://github.com/syuilo/misskey
 	branch = v10
-[submodule "v11/node8/misskey"]
-	path = v11/node8/misskey
-	url = https://github.com/syuilo/misskey
-	branch = develop
 [submodule "v11/node11/misskey"]
 	path = v11/node11/misskey
+	url = https://github.com/syuilo/misskey
+	branch = develop
+[submodule "v11/node12/misskey"]
+	path = v11/node12/misskey
 	url = https://github.com/syuilo/misskey
 	branch = develop

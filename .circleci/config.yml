@@ -48,6 +48,23 @@ jobs:
 
 workflows:
   version: 2
+  v11-node12:
+    jobs:
+      - docker:
+          name: build-v11-node12
+          path: v11/node12
+          tag: v11-node12
+          filters:
+            branches:
+              ignore: master
+      - docker:
+          name: deploy-v11-node12
+          deploy: true
+          path: v11/node12
+          tag: v11-node12
+          filters:
+            branches:
+              only: master
   v11-node11:
     jobs:
       - docker:
@@ -62,23 +79,6 @@ workflows:
           deploy: true
           path: v11/node11
           tag: v11-node11
-          filters:
-            branches:
-              only: master
-  v11-node8:
-    jobs:
-      - docker:
-          name: build-v11-node8
-          path: v11/node8
-          tag: v11-node8
-          filters:
-            branches:
-              ignore: master
-      - docker:
-          name: deploy-v11-node8
-          deploy: true
-          path: v11/node8
-          tag: v11-node8
           filters:
             branches:
               only: master
@@ -99,20 +99,20 @@ workflows:
           filters:
             branches:
               only: master
-  v10-node8:
+  v10-node10:
     jobs:
       - docker:
-          name: build-v10-node8
-          path: v10/node8
-          tag: v10-node8
+          name: build-v10-node10
+          path: v10/node10
+          tag: v10-node10
           filters:
             branches:
               ignore: master
       - docker:
-          name: deploy-v10-node8
+          name: deploy-v10-node10
           deploy: true
-          path: v10/node8
-          tag: v10-node8
+          path: v10/node10
+          tag: v10-node10
           filters:
             branches:
               only: master
