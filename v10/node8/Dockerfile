@@ -3,7 +3,7 @@ FROM node:8-alpine AS base
 ENV NODE_ENV=production
 
 WORKDIR /tmp/misskey
-COPY v10/node8/yarn.lock ./
+COPY yarn.lock ./
 COPY misskey/v10 ./
 
 FROM base AS builder
