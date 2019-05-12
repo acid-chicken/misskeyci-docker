@@ -24,8 +24,9 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
-          name: Checkout
+          name: Checkout submodule
           command: |
+            apk add --no-cache git
             git submodule update --init --recursive
       - run:
           name: Build
