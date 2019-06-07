@@ -26,4 +26,4 @@ RUN apk add --no-cache \
  && npm i -g npm@latest \
  && npm i -g yarn
 
-COPY yarn.lock ./
+# COPY yarn.lock ./
